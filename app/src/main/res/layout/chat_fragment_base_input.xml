@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <!-- 语音/文字切换-->
+        <ImageView
+            android:id="@+id/image_text_to_voice"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/chatting_voice" />
+
+        <ImageView
+            android:id="@+id/image_voice_to_text"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/chatting_soft_key_board"
+            android:visibility="gone" />
+
+        <!--语音输入-->
+        <Button
+            android:id="@+id/btn_voice_input"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toLeftOf="@+id/rl_multi_and_send"
+            android:layout_toRightOf="@+id/image_text_to_voice"
+            android:background="@drawable/btn_voice"
+            android:text="按住录音"
+            android:textColor="#727272"
+            android:visibility="gone" />
+
+        <!--输入框-->
+        <EditText
+            android:id="@+id/edt_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/image_emotion"
+            android:layout_toRightOf="@+id/image_text_to_voice"
+            android:background="@drawable/rectangle"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="center_vertical"
+            android:hint="点击输入文字"
+            android:lineSpacingExtra="4dp"
+            android:maxLines="4"
+            android:minHeight="40dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textSize="16sp" />
+
+        <!--表情-->
+        <ImageView
+            android:id="@+id/image_emotion"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/rl_multi_and_send"
+            android:src="@drawable/chatting_emotion" />
+
+        <RelativeLayout
+            android:id="@+id/rl_multi_and_send"
+            android:layout_width="58dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <!--apps 功能-->
+            <ImageView
+                android:id="@+id/image_multimedia"
+                android:layout_width="34dp"
+                android:layout_height="28dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/chatting_apps" />
+
+            <!--发送-->
+            <Button
+                android:id="@+id/btn_send"
+                android:layout_width="46dp"
+                android:layout_height="34dp"
+                android:layout_centerInParent="true"
+                android:background="@drawable/btn_send_bg"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="发送"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_rel"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FFEAE9E9" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp" />
+
+        <LinearLayout
+            android:id="@+id/ll_point_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

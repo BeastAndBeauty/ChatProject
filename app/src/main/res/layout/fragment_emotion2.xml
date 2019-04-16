@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="7"
+    android:rowCount="3"
+    tools:context=".ChildFragment.Emotion2Fragment">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion22" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion23" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion24" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion25" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion26" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion27" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion28" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion29" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion30" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion31" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion32" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion33" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion34" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion35" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion36" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion37" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion38" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion39" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion40" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion41" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_columnWeight="1"
+        android:layout_margin="15dp"
+        android:background="@drawable/emotion42" />
+
+
+</GridLayout>
