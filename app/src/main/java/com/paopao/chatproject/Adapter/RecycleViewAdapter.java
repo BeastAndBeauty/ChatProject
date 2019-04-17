@@ -1,5 +1,6 @@
 package com.paopao.chatproject.Adapter;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.paopao.chatproject.Application.App;
 import com.paopao.chatproject.Entity.ChatMessage;
 import com.paopao.chatproject.R;
+import com.paopao.chatproject.Util.EmotionUtil;
 
 import java.util.List;
 
@@ -29,10 +31,12 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
 
     private List<ChatMessage> msgList;
+    private Context context;
 
 
-    public RecycleViewAdapter(List<ChatMessage> msgList) {
+    public RecycleViewAdapter(List<ChatMessage> msgList,Context context) {
         this.msgList = msgList;
+        this.context=context;
     }
 
     @NonNull
@@ -45,35 +49,30 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         ChatMessage msg = msgList.get(i);
-       if (msg.getAccount().equals(App.get("UserAccount","123"))){
-           viewHolder.leftLayout.setVisibility(View.GONE);
-           viewHolder.rightLayout.setVisibility(View.VISIBLE);
-           viewHolder.right_nickname.setText(msg.getAccount());
-           if (msg.getMessageType().equals("Text")){
-               viewHolder.rightMsg.setText(msg.getText());
-               viewHolder.right_image.setVisibility(View.GONE);
-           }else {
-               viewHolder.rightMsg.setVisibility(View.GONE);
-               viewHolder.right_image.setImageBitmap(stringToBitmap(msg.getImage()));
-           }
-//           viewHolder.rightMsg.setVisibility(View.GONE);
-//           viewHolder.right_image.setImageBitmap(getBitmapFromByte(msg.getMessage()));
+        if (msg.getAccount().equals(App.get("UserAccount", "123"))) {
+            viewHolder.leftLayout.setVisibility(View.GONE);
+            viewHolder.rightLayout.setVisibility(View.VISIBLE);
+            viewHolder.right_nickname.setText(msg.getAccount());
+            if (msg.getMessageType().equals("Text")) {
+                viewHolder.rightMsg.setText(EmotionUtil.textToEmotion(context,msg.getMessage()));
+                viewHolder.right_image.setVisibility(View.GONE);
+            } else {
+                viewHolder.rightMsg.setVisibility(View.GONE);
+                viewHolder.right_image.setImageBitmap(stringToBitmap(msg.getMessage()));
+            }
+        } else {
+            viewHolder.leftLayout.setVisibility(View.VISIBLE);
+            viewHolder.rightLayout.setVisibility(View.GONE);
+            viewHolder.left_nickname.setText(msg.getAccount());
 
-       }else {
-           viewHolder.leftLayout.setVisibility(View.VISIBLE);
-           viewHolder.rightLayout.setVisibility(View.GONE);
-           viewHolder.left_nickname.setText(msg.getAccount());
-
-           if (msg.getMessageType().equals("Text")){
-               viewHolder.leftMsg.setText(msg.getText());
-               viewHolder.left_image.setVisibility(View.GONE);
-           }else {
-               viewHolder.leftMsg.setVisibility(View.GONE);
-               viewHolder.left_image.setImageBitmap(stringToBitmap(msg.getImage()));
-           }
-
-           viewHolder.leftMsg.setText(msg.getText());
-       }
+            if (msg.getMessageType().equals("Text")) {
+                viewHolder.leftMsg.setText(EmotionUtil.textToEmotion(context,msg.getMessage()));
+                viewHolder.left_image.setVisibility(View.GONE);
+            } else {
+                viewHolder.leftMsg.setVisibility(View.GONE);
+                viewHolder.left_image.setImageBitmap(stringToBitmap(msg.getMessage()));
+            }
+        }
 
     }
 
@@ -108,17 +107,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         }
     }
 
-    public Bitmap getBitmapFromByte(byte[] temp){
-        if(temp != null){
-            Bitmap bitmap = BitmapFactory.decodeByteArray(temp, 0, temp.length);
-            return bitmap;
-        }else{
-            return null;
-        }
-    }
 
-
-    public Bitmap stringToBitmap(String string) {
+    private Bitmap stringToBitmap(String string) {
         //将字符串转换成Bitmap类型
         Bitmap bitmap = null;
         try {
@@ -132,4 +122,4 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
 
-    }
+}

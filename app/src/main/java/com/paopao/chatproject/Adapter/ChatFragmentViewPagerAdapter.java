@@ -1,8 +1,11 @@
 package com.paopao.chatproject.Adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 
 import java.util.List;
 
@@ -11,7 +14,7 @@ import java.util.List;
  * <p>
  * 作用:
  */
-public class ChatFragmentViewPagerAdapter extends FragmentPagerAdapter {
+public class ChatFragmentViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragmentList;
 
@@ -28,5 +31,10 @@ public class ChatFragmentViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return fragmentList.size();
+    }
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        return PagerAdapter.POSITION_NONE;
     }
 }

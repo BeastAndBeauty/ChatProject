@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFDFDFE"
+    app:columnCount="4"
+    app:rowCount="2"
+    tools:context=".ChildFragment.MultimediaFragment">
+
+    <TextView
+        android:id="@+id/text_album"
+        android:layout_width="0dp"
+        android:layout_height="69dp"
+        android:layout_margin="15dp"
+        android:drawableTop="@drawable/chatting_album"
+        android:text="相册"
+        android:textColor="#8a8a8a"
+        android:textSize="11sp"
+        android:gravity="center"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:id="@+id/text_camera"
+        android:layout_width="0dp"
+        android:layout_height="69dp"
+        android:layout_margin="15dp"
+        android:drawableTop="@drawable/chatting_camera"
+        android:text="照相机"
+        android:textColor="#8a8a8a"
+        android:textSize="11sp"
+        android:gravity="center"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:id="@+id/text_video_call"
+        android:layout_width="0dp"
+        android:layout_height="69dp"
+        android:layout_margin="15dp"
+        android:drawableTop="@drawable/chatting_video_call"
+        android:text="视频通话"
+        android:textColor="#8a8a8a"
+        android:textSize="11sp"
+        android:gravity="center"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:id="@+id/text_location"
+        android:layout_width="0dp"
+        android:layout_height="69dp"
+        android:layout_margin="15dp"
+        android:drawableTop="@drawable/chatting_location"
+        android:text="位置"
+        android:textColor="#8a8a8a"
+        android:textSize="11sp"
+        android:gravity="center"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="69dp"
+        android:layout_margin="15dp"
+        android:drawableTop="@drawable/chatting_red_packet"
+        android:text="红包"
+        android:textColor="#8a8a8a"
+        android:textSize="11sp"
+        android:gravity="center"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="69dp"
+        android:layout_margin="15dp"
+        android:drawableTop="@drawable/chatting_transfer_account"
+        android:text="转账"
+        android:textColor="#8a8a8a"
+        android:textSize="11sp"
+        android:gravity="center"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="69dp"
+        android:layout_margin="15dp"
+        android:drawableTop="@drawable/chatting_voice_input"
+        android:text="语音输入"
+        android:textColor="#8a8a8a"
+        android:textSize="11sp"
+        android:gravity="center"
+        app:layout_columnWeight="1" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="69dp"
+        android:layout_margin="15dp"
+        android:drawableTop="@drawable/chatting_file"
+        android:text="文件"
+        android:textColor="#8a8a8a"
+        android:textSize="11sp"
+        android:gravity="center"
+        app:layout_columnWeight="1" />
+
+</android.support.v7.widget.GridLayout>

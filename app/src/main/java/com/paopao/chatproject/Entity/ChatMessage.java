@@ -8,18 +8,14 @@ package com.paopao.chatproject.Entity;
 public class ChatMessage {
 
     private String account;//账号
-    private String messageType;//信息类型 文本 图片 文件
-    private String text;//文本内容
-    private String image;//图片字节流数组
+    private String messageType;//信息类型 文本(Text) 图片(Image) 文件 表情
+    private String message;//内容
 
-    public ChatMessage(String account, String messageType, String text, String image) {
+    public ChatMessage(String account, String messageType, String message) {
         this.account = account;
         this.messageType = messageType;
-        this.text = text;
-        this.image = image;
+        this.message = message;
     }
-
-
 
     public String getAccount() {
         return account;
@@ -27,14 +23,6 @@ public class ChatMessage {
 
     public void setAccount(String account) {
         this.account = account;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public String getMessageType() {
@@ -45,11 +33,11 @@ public class ChatMessage {
         this.messageType = messageType;
     }
 
-    public String getImage() {
-        return image;
+    public String getMessage() {
+        return message;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -22,7 +22,8 @@
         <activity android:name=".Activity.MainActivity" >
 
         </activity>
-        <activity android:name=".Activity.ChatActivity" />
+        <activity android:name=".Activity.ChatActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".Activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

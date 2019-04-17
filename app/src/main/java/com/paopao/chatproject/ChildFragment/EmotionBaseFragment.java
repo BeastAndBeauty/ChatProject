@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,10 +35,6 @@ public abstract class EmotionBaseFragment extends Fragment {
     private int row=3;
     private int column=7;
 
-    //第一个fragment的表情
-    private static Integer[] emotions1 = {R.drawable.emotion1, R.drawable.emotion2, R.drawable.emotion3, R.drawable.emotion4, R.drawable.emotion5, R.drawable.emotion6, R.drawable.emotion7,
-            R.drawable.emotion8, R.drawable.emotion9, R.drawable.emotion10, R.drawable.emotion11, R.drawable.emotion12, R.drawable.emotion13, R.drawable.emotion14,
-            R.drawable.emotion15, R.drawable.emotion16, R.drawable.emotion17, R.drawable.emotion18, R.drawable.emotion19, R.drawable.emotion20, R.drawable.emotion21};
 
 
     @Nullable
@@ -55,8 +52,10 @@ public abstract class EmotionBaseFragment extends Fragment {
     //向chatActivity的输入框输入表情
     private void setEdtTextInputText(int position) {
         ChatActivity.edtTextInputString += "[emotion" + (position+multiple*row*column) + "]";
-        TextView e = getActivity().findViewById(R.id.edt_text_input);
+        EditText e = getActivity().findViewById(R.id.edt_text_input);
         e.setText(EmotionUtil.textToEmotion(getActivity(), ChatActivity.edtTextInputString));
+        e.setSelection(ChatActivity.edtTextInputString.length());
+
     }
 
 

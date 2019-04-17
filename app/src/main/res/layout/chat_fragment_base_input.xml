@@ -28,7 +28,7 @@
             android:layout_height="28dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/chatting_soft_key_board"
+            android:src="@drawable/chatting_soft_keyboard"
             android:visibility="gone" />
 
         <!--语音输入-->
@@ -49,15 +49,14 @@
         <EditText
             android:id="@+id/edt_text_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@+id/image_emotion"
             android:layout_toRightOf="@+id/image_text_to_voice"
             android:background="@drawable/rectangle"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             android:gravity="center_vertical"
             android:hint="点击输入文字"
+            android:layout_centerVertical="true"
             android:lineSpacingExtra="4dp"
             android:maxLines="4"
             android:minHeight="40dp"
@@ -74,6 +73,17 @@
             android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@+id/rl_multi_and_send"
             android:src="@drawable/chatting_emotion" />
+
+        <!--软键盘-->
+        <ImageView
+            android:id="@+id/image_soft_keyboard"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            android:layout_toLeftOf="@+id/rl_multi_and_send"
+            android:src="@drawable/chatting_soft_keyboard" />
 
         <RelativeLayout
             android:id="@+id/rl_multi_and_send"
@@ -105,6 +115,7 @@
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 android:visibility="gone" />
+
         </RelativeLayout>
 
     </RelativeLayout>

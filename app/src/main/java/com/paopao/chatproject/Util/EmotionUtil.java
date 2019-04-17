@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ImageSpan;
-import android.view.View;
 
 import com.paopao.chatproject.R;
 
@@ -51,7 +50,7 @@ public class EmotionUtil {
             String key = matcher.group();
             int start = matcher.start();
             Drawable drawable = resources.getDrawable(emotionMap.get(key));
-            drawable.setBounds(0, 0, 42, 42);
+            drawable.setBounds(0, 0, 50, 50);
             ImageSpan imageSpan = new ImageSpan(drawable);
             spannableString.setSpan(imageSpan, start, start + key.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }

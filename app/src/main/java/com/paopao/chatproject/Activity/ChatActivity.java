@@ -9,9 +9,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -27,11 +30,14 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.paopao.chatproject.Adapter.ChatFragmentViewPagerAdapter;
 import com.paopao.chatproject.Adapter.RecycleViewAdapter;
 import com.paopao.chatproject.Application.App;
+import com.paopao.chatproject.CallBack.OnViewClickListener;
 import com.paopao.chatproject.ChildFragment.Emotion1Fragment;
 import com.paopao.chatproject.ChildFragment.Emotion2Fragment;
 import com.paopao.chatproject.ChildFragment.Emotion3Fragment;
+import com.paopao.chatproject.ChildFragment.MultimediaFragment;
 import com.paopao.chatproject.Entity.ChatMessage;
 import com.paopao.chatproject.R;
+import com.paopao.chatproject.Util.KeyboardUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,16 +59,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ChatActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class ChatActivity extends BaseActivity implements ViewPager.OnPageChangeListener, View.OnTouchListener, TextWatcher,OnViewClickListener {
 
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
-    //    @BindView(R.id.edt_input_message)
-//    EditText edtInputMessage;
-//    @BindView(R.id.btn_send_message)
-//    Button btnSendMessage;
-//    @BindView(R.id.btn_send_image)
-//    Button btnSendImage;
+
     @BindView(R.id.name)
     TextView name;
     @BindView(R.id.back)
@@ -90,12 +91,15 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
     LinearLayout llPointGroup;
     @BindView(R.id.bottom_rel)
     RelativeLayout bottomRel;
+    @BindView(R.id.image_soft_keyboard)
+    ImageView imageSoftKeyboard;
 
     private List<ChatMessage> msgList;
     private RecycleViewAdapter adapter;
 
     private List<ImageView> pointList;
     private List<Fragment> fragmentList;
+    private ChatFragmentViewPagerAdapter viewPagerAdapter;
 
     private static final String HOST = "192.168.0.6";
     private static final int PORT = 8888;
@@ -105,7 +109,7 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
     private String receiveMessage;
 
     //输入框里的内容
-    public static String edtTextInputString="";
+    public static String edtTextInputString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,13 +119,16 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
 
 
         init();
-        initViewPager();
-        initPointGroup();
+
+
         connectSocketService();
 
     }
 
+
+    //表情viewpager底部的点
     private void initPointGroup() {
+        llPointGroup.removeAllViews();
         pointList = new ArrayList<>();
         for (int i = 0; i < fragmentList.size(); i++) {
 
@@ -144,12 +151,23 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
         }
     }
 
-    private void initViewPager() {
+    private void initEmotionViewPager() {
         fragmentList = new ArrayList<>();
         fragmentList.add(new Emotion1Fragment());
         fragmentList.add(new Emotion2Fragment());
         fragmentList.add(new Emotion3Fragment());
-        viewPager.setAdapter(new ChatFragmentViewPagerAdapter(getSupportFragmentManager(), fragmentList));
+        viewPagerAdapter = new ChatFragmentViewPagerAdapter(getSupportFragmentManager(), fragmentList);
+        viewPager.setAdapter(viewPagerAdapter);
+        initPointGroup();
+        viewPager.setOnPageChangeListener(this);
+    }
+
+    private void initMultimediaViewPager() {
+        fragmentList = new ArrayList<>();
+        fragmentList.add(new MultimediaFragment());
+        viewPagerAdapter = new ChatFragmentViewPagerAdapter(getSupportFragmentManager(), fragmentList);
+        viewPager.setAdapter(viewPagerAdapter);
+        initPointGroup();
         viewPager.setOnPageChangeListener(this);
     }
 
@@ -173,7 +191,7 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
                                     try {
                                         Log.i("papa", "receiveMsg=" + receiveMessage);
                                         JSONObject jsonObject = new JSONObject(receiveMessage);
-                                        msgList.add(new ChatMessage(jsonObject.get("Account").toString(), jsonObject.get("MessageType").toString(), jsonObject.get("Text").toString(), jsonObject.get("Image").toString()));
+                                        msgList.add(new ChatMessage(jsonObject.get("Account").toString(), jsonObject.get("MessageType").toString(), jsonObject.get("Message").toString()));
                                         //如果有新消息，则设置适配器的长度（通知适配器，有新的数据被插入），并让 RecyclerView 定位到最后一行
                                         int newSize = msgList.size() - 1;
                                         adapter.notifyItemInserted(newSize);
@@ -199,26 +217,51 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
         msgList = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recycleView.setLayoutManager(layoutManager);
-        adapter = new RecycleViewAdapter(msgList);
+        adapter = new RecycleViewAdapter(msgList, this);
         recycleView.setAdapter(adapter);
+        edtTextInput.setOnTouchListener(this);
+        edtTextInput.addTextChangedListener(this);
+
+
     }
 
+    //发送json数据到服务器
+//    private void sendMessage(){
+//        final JSONObject jsonObject = new JSONObject();
+//        try {
+//            jsonObject.put("Account", App.get("UserAccount", "123"));
+//            jsonObject.put("MessageType", "Text");
+//            jsonObject.put("Message", edtTextInputString);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        if ("".equals(edtTextInputString))
+//            return;
+//        edtTextInput.setText("");
+//        edtTextInputString="";
+//        executorService.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                printWriter.println(jsonObject.toString());
+//            }
+//        });
+//    }
 
     //发送文本
-    private void sendText(String content) {
+    private void sendText() {
 
         final JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("Account", App.get("UserAccount", "123"));
             jsonObject.put("MessageType", "Text");
-            jsonObject.put("Text", content);
-            jsonObject.put("Image", "");
+            jsonObject.put("Message", edtTextInputString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if ("".equals(content))
+        if ("".equals(edtTextInputString))
             return;
         edtTextInput.setText("");
+        edtTextInputString = "";
         executorService.execute(new Runnable() {
             @Override
             public void run() {
@@ -227,8 +270,8 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
         });
     }
 
-    //发送图片
-    private void sendImage(String image_path) {
+    //图片的路径转换为Base64字节流
+    private void setImageToBase64(String image_path) {
 //        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.head_picture01);
         Bitmap bitmap = BitmapFactory.decodeFile(image_path);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -236,21 +279,14 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
         byte[] bytes = out.toByteArray();
         String image_str = Base64.encodeToString(bytes, Base64.DEFAULT);
         //写入字节的长度，再写入图片的字节
-        long len = out.size();
-
         final JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("Account", App.get("UserAccount", "123"));
             jsonObject.put("MessageType", "Image");
-            jsonObject.put("Text", "");
-            jsonObject.put("Image", image_str);
+            jsonObject.put("Message", image_str);
 
-//            jsonObject.put("Account", App.get("UserAccount", "123"));
-//            jsonObject.put("Message", out.toByteArray());
             Log.i("papa", "out.toByteArray()=" + out.toByteArray());
-//            ImageView imageView=findViewById(R.id.test);
-//            String s= (String) jsonObject.get("Message");
-//            imageView.setImageBitmap(getBitmapFromByte((byte[]) jsonObject.get("Message")));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -285,7 +321,7 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
                     Log.i("papa", "aaaa");
                     images = PictureSelector.obtainMultipleResult(data);
                     LocalMedia media = images.get(0);
-                    sendImage(media.getPath());
+                    setImageToBase64(media.getPath());
                     Log.i("papa", "media.getPath()=" + media.getPath());
 
             }
@@ -293,10 +329,11 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
     }
 
 
-    @OnClick({R.id.back, R.id.image_text_to_voice, R.id.image_voice_to_text, R.id.btn_voice_input, R.id.image_emotion, R.id.image_multimedia, R.id.btn_send})
+    @OnClick({R.id.back, R.id.image_text_to_voice, R.id.image_voice_to_text, R.id.btn_voice_input, R.id.image_emotion, R.id.image_multimedia, R.id.btn_send, R.id.image_soft_keyboard})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back:
+                edtTextInputString = "";
                 finish();
                 break;
             case R.id.image_text_to_voice:
@@ -306,11 +343,18 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
             case R.id.btn_voice_input:
                 break;
             case R.id.image_emotion:
-                bottomRel.setVisibility(View.VISIBLE);
+                initEmotionViewPager();
+                setImageEmotionVisibility(false);
                 break;
             case R.id.image_multimedia:
+                initMultimediaViewPager();
+                setImageEmotionVisibility(false);
                 break;
             case R.id.btn_send:
+                sendText();
+                break;
+            case R.id.image_soft_keyboard:
+                setImageEmotionVisibility(true);
                 break;
         }
     }
@@ -333,5 +377,64 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
     @Override
     public void onPageScrollStateChanged(int i) {
 
+    }
+
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        setImageEmotionVisibility(true);
+        return false;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        edtTextInputString = s + "";
+        if (edtTextInputString.equals("") || edtTextInputString == null)
+            setBtnSendVisibility(false);
+        else
+            setBtnSendVisibility(true);
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+    }
+
+    //设置发送按钮是否存在
+    private void setBtnSendVisibility(boolean isVisibility) {
+        if (isVisibility) {
+            imageMultimedia.setVisibility(View.GONE);
+            btnSend.setVisibility(View.VISIBLE);
+        } else {
+            imageMultimedia.setVisibility(View.VISIBLE);
+            btnSend.setVisibility(View.GONE);
+        }
+    }
+
+    //设置表情图片是否可见
+    private void setImageEmotionVisibility(boolean isVisibility) {
+        if (isVisibility) {
+            imageEmotion.setVisibility(View.VISIBLE);
+            bottomRel.setVisibility(View.GONE);
+            imageSoftKeyboard.setVisibility(View.GONE);
+            KeyboardUtil.openKeyboard(edtTextInput, this);
+            edtTextInput.requestFocus();
+        } else {
+            imageEmotion.setVisibility(View.GONE);
+            bottomRel.setVisibility(View.VISIBLE);
+            imageSoftKeyboard.setVisibility(View.VISIBLE);
+            KeyboardUtil.closeKeyboard(edtTextInput, this);
+        }
+    }
+
+
+    @Override
+    public void viewClickListener(View view) {
+        intentToAlbum();
     }
 }
