@@ -104,7 +104,8 @@ public class ChatActivity extends BaseActivity implements ViewPager.OnPageChange
     private ExecutorService executorService = null;
     private String receiveMessage;
 
-    public static SpannableString spannableString=new SpannableString("你好");
+    //输入框里的内容
+    public static String edtTextInputString="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
