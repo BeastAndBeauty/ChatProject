@@ -1,11 +1,8 @@
 package com.paopao.chatproject.Activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -25,18 +22,20 @@ import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
-    @BindView(R.id.tool_bar_center_text)
-    TextView toolBarCenterText;
+
     @BindView(R.id.tool_bar)
     RelativeLayout toolBar;
     @BindView(R.id.frame_layout)
     FrameLayout frameLayout;
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar bottomNavigationBar;
+    @BindView(R.id.tool_bar_text)
+    TextView toolBarText;
     private ChatFragment chatFragment;
     private ContactFragment contactFragment;
     private FindFragment findFragment;
     private MyFragment myFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +63,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 .addItem(new BottomNavigationItem(R.drawable.profile_pressed, "我").setInactiveIconResource(R.drawable.profile_normal))
                 .initialise();//所有的设置需在调用该方法前完成
 
+        bottomNavigationBar.setTabSelectedListener(this);
+
     }
 
-    @OnClick({R.id.tool_bar_center_text, R.id.frame_layout, R.id.bottom_navigation_bar})
+    @OnClick({R.id.frame_layout, R.id.bottom_navigation_bar})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tool_bar_center_text:
-                break;
+
             case R.id.frame_layout:
                 break;
             case R.id.bottom_navigation_bar:
@@ -80,32 +80,32 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void onTabSelected(int position) {
-        FragmentManager fm = getSupportFragmentManager();
-        // 开启Fragment事务
-        FragmentTransaction transaction = fm.beginTransaction();
-        Fragment currentFragment=new ChatFragment();
-
+        Fragment currentFragment;
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         switch (position) {
             case 0:
-                if (chatFragment == null)
-                    currentFragment = new ChatFragment();
+                currentFragment = new ChatFragment();
+                toolBarText.setText("ChatWhat");
                 break;
             case 1:
-                if (contactFragment == null)
-                    currentFragment = new ContactFragment();
+                currentFragment = new ContactFragment();
+                toolBarText.setText("Contacts");
                 break;
             case 2:
-                if (findFragment == null)
-                    currentFragment = new FindFragment();
+                currentFragment = new FindFragment();
+                toolBarText.setText("Discover");
                 break;
             case 3:
-                if (myFragment == null)
-                    currentFragment = new MyFragment();
+                currentFragment = new MyFragment();
+                toolBarText.setText("Me");
                 break;
-
+            default:
+                currentFragment = new ChatFragment();
+                toolBarText.setText("ChatWhat");
+                break;
         }
-        transaction.replace(R.id.frame_layout,currentFragment);
-        transaction.commit();
+        fragmentTransaction.replace(R.id.frame_layout, currentFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -118,11 +118,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     }
 
-    private void setDefaultFragment()
-    {
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.frame_layout, new ChatFragment());
-        transaction.commit();
+    private void setDefaultFragment() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, new ChatFragment());
+        fragmentTransaction.commit();
     }
 }
