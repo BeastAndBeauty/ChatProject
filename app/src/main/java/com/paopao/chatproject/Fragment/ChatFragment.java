@@ -58,7 +58,7 @@ public class ChatFragment extends Fragment implements RecycleViewOnItemClickList
     private void initRecycleView() {
         msgList = new ArrayList<>();
         msgList.add(new ChatFragmentEntity("669大家庭","没有灵魂的程序员","02:21",R.drawable.picture1));
-        msgList.add(new ChatFragmentEntity("仰佳儿子","Idiot boy","08:20",R.drawable.picture2));
+        msgList.add(new ChatFragmentEntity("儿子","Idiot boy","08:20",R.drawable.picture2));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recycleView.setLayoutManager(layoutManager);
         adapter = new ChatFragmentRecycleViewAdapter(msgList);

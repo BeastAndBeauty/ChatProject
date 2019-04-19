@@ -13,6 +13,7 @@
         android:background="#2f9cd5">
 
         <TextView
+            android:id="@+id/tool_bar_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -21,12 +22,6 @@
             android:textSize="20sp"
             android:textStyle="italic" />
 
-        <TextView
-            android:id="@+id/tool_bar_center_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="消息" />
 
     </RelativeLayout>
 
